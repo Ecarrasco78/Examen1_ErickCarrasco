@@ -8,6 +8,7 @@ package examen1;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -155,12 +156,12 @@ public class Registrar extends javax.swing.JPanel {
         int edad;
         String nombre, user="", correo="", password;
         String clases ="";
+        int count=0;
         try{
             edad = Integer.parseInt(tf_edad.getText());
             nombre = tf_nombre.getText();
             ArrayList lista = new ArrayList();
-            boolean verify1 = true;
-            boolean verify2 = true;
+
             correo = tf_correo.getText();
             
             Pattern pattern = Pattern
@@ -171,32 +172,44 @@ public class Registrar extends javax.swing.JPanel {
             Matcher mather = pattern.matcher(correo);
 
             if (mather.find() == true) {
-                verify2 = false;
+                count = 0;
             } else {
                 JOptionPane.showMessageDialog(this, "Email no valido");
-                verify2 = true;
+                count++;
+                
             }
-            
             
             lista = lista1(lista);
-            while (verify1) {
-                user= tf_user.getText();
-                for (Object col : lista) {
+            boolean feik = false;
+            user = tf_user.getText();
+            for (Object col : lista) {
 
-                    if (user == col) {
-                        JOptionPane.showMessageDialog(this, "El usuario ya esta en el database");
-                        verify1 = true;
-                    }
-                    else{
-                        verify1=false;
-                    }
-                }
+                if (user == col) {
+                    JOptionPane.showMessageDialog(this, "El usuario ya esta en el database");
+                    count++;
+                }else{
+                    count = 0;
+                }   
+              
             }
+
             password = tf_password.getText();
             
-            Users x = new Users(
-            nombre, edad, correo, user, password, clases);
-
+            if (count<1) {
+                Users x = new Users(
+                        nombre, edad, correo, user, password, clases);
+                Users con = new Users();
+                con.setName(nombre);
+                JOptionPane.showMessageDialog(this, x+" \n" +"Agregado");
+                tf_nombre.setText("");
+                tf_edad.setText("");
+                tf_correo.setText("");
+                tf_user.setText("");
+                tf_password.setText("");
+                
+            }
+            
+            
         }catch(Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Ha occurrido un error fatal. Datos no fueron guardados");
