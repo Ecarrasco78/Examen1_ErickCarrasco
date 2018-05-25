@@ -332,6 +332,9 @@ public class Principal extends javax.swing.JFrame {
         }
         if((lista.get(count).getPassword()).equals(password)){
             JOptionPane.showMessageDialog(this, "Welcome");
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Usuario incorrecto");
         };
     }//GEN-LAST:event_jButton1ActionPerformed
 
